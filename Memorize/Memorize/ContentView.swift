@@ -11,16 +11,13 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
         HStack {
-            VStack {
-                CardView(isFaceUp: true)
-                CardView()
-            }
-            VStack {
-                CardView(isFaceUp: true)
-                CardView(isFaceUp: false)
-            }
+            CardView(isFaceUp: false)
+            CardView()
+            CardView()
+            CardView()
         }
-        
+        .foregroundColor(.orange)
+        .padding()
     }
 }
 
@@ -29,24 +26,23 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFaceUp: Bool = false
+    @State var isFaceUp = true //@State makes this variable a pointer to isFaceUp
     var body: some View {
-        ZStack (content: {
-            
-            
+        ZStack {
+            let base = RoundedRectangle(cornerRadius: 12)
             if isFaceUp {
-                RoundedRectangle(cornerRadius: 23).foregroundColor(.white)
+                base.fill(.white)
+                base.strokeBorder(lineWidth: 2)
                 Text("🤓")
                     .font(.largeTitle)
             } else {
-                RoundedRectangle(cornerRadius: 23).foregroundColor(.orange)
+                base.fill()
                 Text("")
             }
-            RoundedRectangle(cornerRadius: 23)
-                .strokeBorder(lineWidth: 10)
-        })
-        .foregroundColor(.orange)
-        .padding()
-        .imageScale(.small)
+        }
+        .onTapGesture {
+            print("tappe")
+            isFaceUp.toggle()
+        }
     }
 }
